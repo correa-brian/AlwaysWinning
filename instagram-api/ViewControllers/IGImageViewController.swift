@@ -26,14 +26,14 @@ class IGImageViewController: IGViewController, UITableViewDelegate, UITableViewD
         self.postTable.dataSource = self
         self.postTable.separatorStyle = .None
         
-        let width = frame.size.width
+//        let width = frame.size.width
 
-        let postImageView =  UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: 320))
+        let postImageView =  UIImageView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
         postImageView.image = post.image
         
         self.postTable.tableHeaderView = postImageView
         
-        let caption = UITextView(frame: CGRect(x: 0, y: 276, width: width, height: 30))
+        let caption = UITextView(frame: CGRect(x: 0, y: 276, width: 320, height: 30))
         caption.text = post.caption
         caption.textColor = UIColor.whiteColor()
         caption.font = UIFont.systemFontOfSize(14)

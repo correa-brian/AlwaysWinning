@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IGHomeViewControlllerViewController: UIViewController {
+class IGHomeViewControlllerViewController: IGViewController {
 
     //MARK: Properties
     
@@ -48,6 +48,8 @@ class IGHomeViewControlllerViewController: UIViewController {
         self.jamesBtn.layer.cornerRadius = 5.0
         self.jamesBtn.layer.masksToBounds = true
         
+        self.jamesBtn.addTarget(self, action: #selector(IGHomeViewControlllerViewController.showNextController(_:)), forControlEvents: .TouchUpInside)
+        
         view.addSubview(self.jamesBtn)
         
         self.harperBtn = UIButton(type: .Custom)
@@ -60,6 +62,8 @@ class IGHomeViewControlllerViewController: UIViewController {
         self.harperBtn.layer.borderWidth = 1.0
         self.harperBtn.layer.cornerRadius = 5.0
         self.harperBtn.layer.masksToBounds = true
+        
+        self.harperBtn.addTarget(self, action: #selector(IGHomeViewControlllerViewController.showNextController(_:)), forControlEvents: .TouchUpInside)
         
         view.addSubview(self.harperBtn)
         
@@ -74,6 +78,8 @@ class IGHomeViewControlllerViewController: UIViewController {
         self.newtonBtn.layer.cornerRadius = 5.0
         self.newtonBtn.layer.masksToBounds = true
         
+        self.newtonBtn.addTarget(self, action: #selector(IGHomeViewControlllerViewController.showNextController(_:)), forControlEvents: .TouchUpInside)
+        
         view.addSubview(self.newtonBtn)
         
         self.view = view
@@ -82,6 +88,16 @@ class IGHomeViewControlllerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+    
+    func showNextController(sender: UIButton){
+        
+        let nextVc = IGFeedViewController()
+        nextVc.title = sender.currentTitle
+        
+        print("\(nextVc.title!)")
+       
+        self.navigationController?.pushViewController(nextVc, animated: true)
     }
 
     override func didReceiveMemoryWarning() {

@@ -28,8 +28,6 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
         self.itemsTable.dataSource = self
         self.itemsTable.delegate = self
         
-//        self.captionTable.autoresizingMask = .FlexibleTopMargin
-        
         view.addSubview(self.itemsTable)
         
         self.view = view
@@ -37,8 +35,22 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var url = ""
+        
+        if(self.title == "Lebron James"){
+            url = "https://www.instagram.com/kingjames/media/"
+        }
+        
+        if(self.title == "Bryce Harper"){
+            url = "https://www.instagram.com/bharper3407/media/"
+        }
+        if(self.title == "Cam Newton"){
+            url = "https://www.instagram.com/cameron1newton/media/"
+        }
+        
+        print("\(url)")
 
-        let url = "https://www.instagram.com/kobebryant/media/"
         Alamofire.request(.GET, url, parameters: nil).responseJSON { response in
             if let JSON = response.result.value as? Dictionary<String, AnyObject>{
 //                print("\(JSON)")
@@ -74,6 +86,27 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
             })
             
         }
+    }
+    
+    //MARK: Configure Cell
+    
+    func configureCell(cell: BCTableViewCell, indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let item = self.itemsArray[indexPath.row]
+        
+        cell.textLabel?.text = item.caption
+        cell.detailTextLabel?.text = "\(item.comments.count) comments"
+        
+        if (item.image == nil){
+            item.addObserver(self, forKeyPath: "image", options: .Initial, context: nil)
+            cell.imageView?.image = nil
+            item.fetchImage()
+            return cell
+        }
+        
+        cell.imageView?.image = item.image
+        return cell
+        
     }
     
     //MARK: Table Delegate Methods
@@ -119,27 +152,6 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
         let imageVC = IGImageViewController()
         imageVC.post = item
         self.navigationController?.pushViewController(imageVC, animated: true)
-        
-    }
-    
-    //MARK: Configure Cell
-    
-    func configureCell(cell: BCTableViewCell, indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let item = self.itemsArray[indexPath.row]
-        
-        cell.textLabel?.text = item.caption
-        
-        if (item.image == nil){
-            item.addObserver(self, forKeyPath: "image", options: .Initial, context: nil)
-            cell.imageView?.image = nil
-            cell.detailTextLabel?.text = "Comments: \(item.count)"
-            item.fetchImage()
-            return cell
-        }
-        
-        cell.imageView?.image = item.image
-        return cell
         
     }
     
