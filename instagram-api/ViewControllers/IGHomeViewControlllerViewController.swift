@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class IGHomeViewControlllerViewController: IGViewController {
 
@@ -16,21 +17,10 @@ class IGHomeViewControlllerViewController: IGViewController {
     var harperBtn: UIButton!
     var newtonBtn: UIButton!
     
-    //MARK: Functions
-    func showFeed(_: UIButton){
-        
-    }
-    
-//    func btnNextAction(btn: UIButton){
-//        print("btnNextAction")
-//        
-//        let forumVc = BCForumViewController()
-//        
-//        self.navigationController?.pushViewController(forumVc, animated: true)
-    
     //MARK: Lifecycle Methods
     
     override func loadView() {
+        
         let frame = UIScreen.mainScreen().bounds
         let view = UIView(frame: frame)
         view.backgroundColor = UIColor.whiteColor()
@@ -94,8 +84,6 @@ class IGHomeViewControlllerViewController: IGViewController {
         
         let nextVc = IGFeedViewController()
         nextVc.title = sender.currentTitle
-        
-        print("\(nextVc.title!)")
        
         self.navigationController?.pushViewController(nextVc, animated: true)
     }

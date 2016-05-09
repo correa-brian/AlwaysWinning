@@ -42,14 +42,12 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
             url = "https://www.instagram.com/kingjames/media/"
         }
         
-        if(self.title == "Bryce Harper"){
-            url = "https://www.instagram.com/bharper3407/media/"
-        }
-        if(self.title == "Cam Newton"){
-            url = "https://www.instagram.com/cameron1newton/media/"
-        }
-        
-        print("\(url)")
+//        if(self.title == "Bryce Harper"){
+//            url = "https://www.instagram.com/bharper3407/media/"
+//        }
+//        if(self.title == "Cam Newton"){
+//            url = "https://www.instagram.com/cameron1newton/media/"
+//        }
 
         Alamofire.request(.GET, url, parameters: nil).responseJSON { response in
             if let JSON = response.result.value as? Dictionary<String, AnyObject>{
