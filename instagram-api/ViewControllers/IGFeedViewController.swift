@@ -77,7 +77,7 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         if (keyPath == "image"){
-//            print("IMAGE DOWNLOADED")
+            print("IMAGE DOWNLOADED")
             
             dispatch_async(dispatch_get_main_queue(), {
                 self.itemsTable.reloadData()

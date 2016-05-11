@@ -16,6 +16,8 @@ class IGHomeViewControlllerViewController: IGViewController {
     var jamesBtn: UIButton!
     var harperBtn: UIButton!
     var newtonBtn: UIButton!
+    var buttons = Array<UIButton>()
+    var optionsArray = ["Lebron James", "Bryce Harper", "Cam Newton"]
     
     //MARK: Lifecycle Methods
     
@@ -25,52 +27,34 @@ class IGHomeViewControlllerViewController: IGViewController {
         let view = UIView(frame: frame)
         view.backgroundColor = UIColor.whiteColor()
         
-        let originX = 0.5*frame.size.width
+        let dimen = frame.size.width
+        let padding = CGFloat(60)
+        var y = frame.size.height*0.5 - 160
         
-        self.jamesBtn = UIButton(type: .Custom)
-        self.jamesBtn.autoresizingMask = .FlexibleTopMargin
-        self.jamesBtn.frame = CGRect(x: originX-100, y: 100, width: 200, height: 44)
-        self.jamesBtn.setTitle("Lebron James", forState: .Normal)
-        self.jamesBtn.setTitleColor(UIColor.blueColor(), forState: .Normal)
-        self.jamesBtn.backgroundColor = UIColor.whiteColor()
-        self.jamesBtn.layer.borderColor = UIColor.blueColor().CGColor
-        self.jamesBtn.layer.borderWidth = 1.0
-        self.jamesBtn.layer.cornerRadius = 5.0
-        self.jamesBtn.layer.masksToBounds = true
+        let height = CGFloat(44)
+        let width = dimen-2*padding
+        let blue = UIColor.blueColor()
         
-        self.jamesBtn.addTarget(self, action: #selector(IGHomeViewControlllerViewController.showNextController(_:)), forControlEvents: .TouchUpInside)
-        
-        view.addSubview(self.jamesBtn)
-        
-        self.harperBtn = UIButton(type: .Custom)
-        self.harperBtn.autoresizingMask = .FlexibleTopMargin
-        self.harperBtn.frame = CGRect(x: originX-100, y: 200, width: 200, height: 44)
-        self.harperBtn.setTitle("Bryce Harper", forState: .Normal)
-        self.harperBtn.setTitleColor(UIColor.blueColor(), forState: .Normal)
-        self.harperBtn.backgroundColor = UIColor.whiteColor()
-        self.harperBtn.layer.borderColor = UIColor.blueColor().CGColor
-        self.harperBtn.layer.borderWidth = 1.0
-        self.harperBtn.layer.cornerRadius = 5.0
-        self.harperBtn.layer.masksToBounds = true
-        
-        self.harperBtn.addTarget(self, action: #selector(IGHomeViewControlllerViewController.showNextController(_:)), forControlEvents: .TouchUpInside)
-        
-        view.addSubview(self.harperBtn)
-        
-        self.newtonBtn = UIButton(type: .Custom)
-        self.newtonBtn.autoresizingMask = .FlexibleTopMargin
-        self.newtonBtn.frame = CGRect(x: originX-100, y: 300, width: 200, height: 44)
-        self.newtonBtn.setTitle("Cam Newton", forState: .Normal)
-        self.newtonBtn.setTitleColor(UIColor.blueColor(), forState: .Normal)
-        self.newtonBtn.backgroundColor = UIColor.whiteColor()
-        self.newtonBtn.layer.borderColor = UIColor.blueColor().CGColor
-        self.newtonBtn.layer.borderWidth = 1.0
-        self.newtonBtn.layer.cornerRadius = 5.0
-        self.newtonBtn.layer.masksToBounds = true
-        
-        self.newtonBtn.addTarget(self, action: #selector(IGHomeViewControlllerViewController.showNextController(_:)), forControlEvents: .TouchUpInside)
-        
-        view.addSubview(self.newtonBtn)
+        for i in 0..<3 {
+            let btn = UIButton(type: .Custom)
+            btn.frame = CGRect(x: padding, y: y, width: width, height: height)
+            btn.tag = Int(y)
+            
+            btn.layer.borderColor = UIColor.blueColor().CGColor
+            btn.layer.borderWidth = 2.0
+            btn.layer.cornerRadius = 0.5*height
+            btn.layer.masksToBounds = true
+            btn.setTitleColor(blue, forState: .Normal)
+            
+            let text = optionsArray[i]
+            
+            btn.setTitle(text, forState: .Normal)
+            btn.addTarget(self, action: #selector(IGHomeViewControlllerViewController.showNextController(_:)), forControlEvents: .TouchUpInside)
+            
+            view.addSubview(btn)
+            self.buttons.append(btn)
+            y += btn.frame.size.height+padding
+        }
         
         self.view = view
     }
