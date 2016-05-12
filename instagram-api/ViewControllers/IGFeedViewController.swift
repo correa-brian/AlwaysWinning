@@ -38,7 +38,7 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
         
         var url = ""
         
-        if(self.title == "Lebron James"){
+        if (self.title == "Lebron James"){
             url = "https://www.instagram.com/kingjames/media/"
         }
         
@@ -80,6 +80,8 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
             print("IMAGE DOWNLOADED")
             
             dispatch_async(dispatch_get_main_queue(), {
+                let item = object as? IGItem
+                item?.removeObserver(self, forKeyPath: "image")
                 self.itemsTable.reloadData()
             })
             
@@ -96,8 +98,8 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
         cell.detailTextLabel?.text = "\(item.comments.count) comments"
         
         if (item.image == nil){
-            item.addObserver(self, forKeyPath: "image", options: .Initial, context: nil)
             cell.imageView?.image = nil
+            item.addObserver(self, forKeyPath: "image", options: .Initial, context: nil)
             item.fetchImage()
             return cell
         }

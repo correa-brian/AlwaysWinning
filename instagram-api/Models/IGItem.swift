@@ -19,9 +19,11 @@ class IGItem: NSObject {
     var count: Int!
     
     func fetchImage(){
-        if(self.isFetching == true){ //currently fetching, ignore
+        if (self.isFetching == true){ //currently fetching, ignore
             return
         }
+        
+        print("FETCH IMAGE: \(self.imageUrl)")
         
         self.isFetching = true
         Alamofire.request(.GET, self.imageUrl, parameters: nil).response { (request, response, data, error) in
