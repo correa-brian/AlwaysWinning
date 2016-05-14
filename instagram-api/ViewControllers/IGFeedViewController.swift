@@ -21,7 +21,7 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
     override func loadView() {
         let frame = UIScreen.mainScreen().bounds
         let view = UIView(frame: frame)
-        view.backgroundColor = UIColor.redColor()
+        view.backgroundColor = UIColor(red: 126/255, green: 192/255, blue: 238/255, alpha: 1.0)
         
         
         self.itemsTable = UITableView(frame: frame, style: .Plain)
@@ -42,12 +42,12 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
             url = "https://www.instagram.com/kingjames/media/"
         }
         
-//        if(self.title == "Bryce Harper"){
-//            url = "https://www.instagram.com/bharper3407/media/"
-//        }
-//        if(self.title == "Cam Newton"){
-//            url = "https://www.instagram.com/cameron1newton/media/"
-//        }
+        if(self.title == "Bryce Harper"){
+            url = "https://www.instagram.com/bharper3407/media/"
+        }
+        if(self.title == "Cam Newton"){
+            url = "https://www.instagram.com/cameron1newton/media/"
+        }
 
         Alamofire.request(.GET, url, parameters: nil).responseJSON { response in
             if let JSON = response.result.value as? Dictionary<String, AnyObject>{
@@ -77,7 +77,7 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         if (keyPath == "image"){
-            print("IMAGE DOWNLOADED")
+//            print("IMAGE DOWNLOADED")
             
             dispatch_async(dispatch_get_main_queue(), {
                 let item = object as? IGItem

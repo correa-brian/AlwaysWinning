@@ -23,7 +23,7 @@ class IGItem: NSObject {
             return
         }
         
-        print("FETCH IMAGE: \(self.imageUrl)")
+//        print("FETCH IMAGE: \(self.imageUrl)")
         
         self.isFetching = true
         Alamofire.request(.GET, self.imageUrl, parameters: nil).response { (request, response, data, error) in
