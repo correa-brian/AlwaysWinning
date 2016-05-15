@@ -10,49 +10,61 @@ import UIKit
 
 class IGImageViewController: IGViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var postTable: UITableView!
-    var post = IGItem()
+    var item = IGItem()
+    var commentsTable: UITableView!
+    var itemImageView: UIImageView!
+    var lblCaption: UILabel!
+    var lblDate: UILabel!
+    
+    required init?(coder aDecoder: NSCoder){
+        super.init(coder: aDecoder)
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?){
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.edgesForExtendedLayout = .None
+    }
     
     override func loadView() {
         
-        self.edgesForExtendedLayout = .None
-        
         let frame = UIScreen.mainScreen().bounds
         let view = UIView(frame: frame)
-        view.backgroundColor = UIColor.grayColor()
+        view.backgroundColor = UIColor.whiteColor()
         
-        self.postTable = UITableView(frame: frame, style: .Plain)
-        self.postTable.delegate = self
-        self.postTable.dataSource = self
-        self.postTable.separatorStyle = .None
+        self.itemImageView = UIImageView(image: self.item.image)
+        self.itemImageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.width)
         
-//        let width = frame.size.width
-
-        let postImageView =  UIImageView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
-        postImageView.image = post.image
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = self.itemImageView.bounds
+        let blk = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
+        gradient.colors = [UIColor.clearColor().CGColor, blk.CGColor]
+        self.itemImageView.layer.insertSublayer(gradient, atIndex: 0)
+        view.addSubview(self.itemImageView)
         
-        self.postTable.tableHeaderView = postImageView
+        let font = UIFont.systemFontOfSize(16)
+        let cap = NSString(string: self.item.caption)
+        let bounds = cap.boundingRectWithSize(CGSizeMake(frame.size.width-24, 1000),
+                                              options: .UsesLineFragmentOrigin,
+                                              attributes: [NSFontAttributeName:font],
+                                              context: nil)
+        let height = bounds.size.height
         
-        let caption = UITextView(frame: CGRect(x: 0, y: 276, width: 320, height: 30))
-        caption.text = post.caption
-        caption.textColor = UIColor.whiteColor()
-        caption.font = UIFont.systemFontOfSize(14)
-        caption.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-        self.postTable.addSubview(caption)
+        self.lblCaption = UILabel(frame: CGRect(x: 12, y: self.itemImageView.frame.size.height-height-12, width: frame.size.width-24, height: height))
+        self.lblCaption.lineBreakMode = .ByWordWrapping
+        self.lblCaption.numberOfLines = 0
+        self.lblCaption.textColor = UIColor.whiteColor()
+        self.lblCaption.font = font
+        self.lblCaption.text = self.item.caption
+        view.addSubview(self.lblCaption)
         
-        let imageGradient = CAGradientLayer()
-        imageGradient.frame = postImageView.bounds
-        var colors = [CGColor]()
-        colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 1).CGColor)
-        colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 0).CGColor)
+        self.commentsTable = UITableView(frame: frame, style: .Plain)
+        self.commentsTable.delegate = self
+        self.commentsTable.dataSource = self
+        self.commentsTable.contentInset = UIEdgeInsetsMake(frame.size.width, 0.0, 0.0, 0.0)
+        self.commentsTable.separatorStyle = .None
+        self.commentsTable.backgroundColor = UIColor.clearColor()
         
-        imageGradient.colors = colors
-        imageGradient.startPoint = CGPointMake(0.5, 1)
-        imageGradient.endPoint = CGPointMake(0.5, 0.5)
-        
-        postImageView.layer.addSublayer(imageGradient)
-        
-        view.addSubview(postTable)
+        view.addSubview(commentsTable)
         
         self.view = view
     }
@@ -62,10 +74,24 @@ class IGImageViewController: IGViewController, UITableViewDelegate, UITableViewD
 
     }
     
+    func scrollViewDidScroll(scrollView: UIScrollView){
+        let offsetY = -1*scrollView.contentOffset.y
+        
+        let max = scrollView.frame.size.width
+        let min = 0.5*max
+        let span = max-min
+        
+        let delta = max-offsetY
+        let alpha = (min-delta)/span
+        
+        self.itemImageView.alpha = alpha
+        
+    }
+    
     //Mark: Table Delegate Methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return post.comments.count
+        return item.comments.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -83,9 +109,8 @@ class IGImageViewController: IGViewController, UITableViewDelegate, UITableViewD
     
     func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) -> UITableViewCell {
         
-        cell.textLabel?.text = self.post.comments[indexPath.row]
+        cell.textLabel?.text = self.item.comments[indexPath.row]
         return cell
-        
     }
 
     override func didReceiveMemoryWarning() {

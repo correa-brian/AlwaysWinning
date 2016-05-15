@@ -127,30 +127,17 @@ class IGFeedViewController: IGViewController, UITableViewDelegate, UITableViewDa
         return self.configureCell(cell, indexPath: indexPath)
     }
     
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        
-//        let captionInfo = self.itemsArray[indexPath.row]
-//        
-//        let capText = NSString(string: captionInfo.captionText)
-//        
-//        let rect = capText.boundingRectWithSize(CGSizeMake(tableView.frame.size.width, 100),
-//                                                    options: .UsesLineFragmentOrigin,
-//                                                    attributes: [NSFontAttributeName: UIFont.systemFontOfSize(14)],
-//                                                    context: nil)
-//        
-//        if(rect.size.height < 44){
-//            return 100
-//        }
-//        
-//        return rect.size.height+80
-//    }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return 100
+    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let item = self.itemsArray[indexPath.row]
         
         let imageVC = IGImageViewController()
-        imageVC.post = item
+        imageVC.item = item
         self.navigationController?.pushViewController(imageVC, animated: true)
         
     }

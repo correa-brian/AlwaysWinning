@@ -9,22 +9,24 @@
 import UIKit
 
 class BCTableViewCell: UITableViewCell {
+    
+    
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         let frame = UIScreen.mainScreen().bounds
+    
         self.textLabel?.font = UIFont.systemFontOfSize(14)
-//        self.textLabel?.numberOfLines = 0
-//        self.textLabel?.lineBreakMode = .ByWordWrapping
-//        self.textLabel?.autoresizingMask = .FlexibleTopMargin
-//        self.textLabel?.textColor = UIColor.redColor()
+        self.textLabel?.numberOfLines = 0
+        self.textLabel?.lineBreakMode = .ByWordWrapping
+        self.textLabel?.autoresizingMask = .FlexibleTopMargin
 
-//        self.selectionStyle = .None
+        self.selectionStyle = .None
         
     }
     

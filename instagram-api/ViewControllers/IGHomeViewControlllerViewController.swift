@@ -17,7 +17,10 @@ class IGHomeViewControlllerViewController: IGViewController {
     var harperBtn: UIButton!
     var newtonBtn: UIButton!
     var buttons = Array<UIButton>()
+    var clouds = Array<UIImageView>()
+    
     var optionsArray = ["Lebron James", "Bryce Harper", "Cam Newton"]
+    var cloudImagesArray = ["cloud-1.png", "cloud-2.png", "cloud-3.png"]
     
     //MARK: Lifecycle Methods
     
@@ -28,7 +31,7 @@ class IGHomeViewControlllerViewController: IGViewController {
         view.backgroundColor = UIColor(red: 126/255, green: 192/255, blue: 238/255, alpha: 1.0)
         
         let dimen = frame.size.width
-        let padding = CGFloat(60)
+        var padding = CGFloat(60)
         var y = frame.size.height*0.5 - 160
         
         let height = CGFloat(44)
@@ -57,21 +60,24 @@ class IGHomeViewControlllerViewController: IGViewController {
          
         }
         
-        let cloud1 = UIImageView(frame: CGRect(x: 100, y: 500, width: 159, height: 50))
-        cloud1.image = UIImage(named: "cloud-1.png")
-        view.addSubview(cloud1)
-
-        let cloud2 = UIImageView(frame: CGRect(x: 200, y: 75, width: 159, height: 50))
-        cloud2.image = UIImage(named: "cloud-2.png")
-        view.addSubview(cloud2)
+        padding = frame.size.width*0.3
+        var x = CGFloat(0)
+        y = frame.size.height*0.3
         
-        let cloud3 = UIImageView(frame: CGRect(x: 50, y: 300, width: 159, height: 50))
-        cloud3.image = UIImage(named: "cloud-3.png")
-        view.addSubview(cloud3)
+        for i in 0..<3{
+            let cloud = UIImageView(frame: CGRect(x: x, y: y, width: 159, height: 50))
+            cloud.tag = Int(x)
+            
+            let image = cloudImagesArray[i]
+            
+            cloud.image = UIImage(named: image)
+            
+            view.addSubview(cloud)
+            self.clouds.append(cloud)
+            x += padding
+            y += padding
+        }
         
-//        animateCloud(cloud1)
-//        animateCloud(cloud2)
-//        animateCloud(cloud3)
         
         self.view = view
     }
@@ -79,18 +85,29 @@ class IGHomeViewControlllerViewController: IGViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        for i in 0..<self.cloudImagesArray.count{
+            
+            let width = Int(view.frame.size.width)
+            let offScreen = Int(self.clouds[i].frame.origin.x)
+            let speed = 60.0/view.frame.size.width
+            let duration = view.frame.size.width * speed
+            
+            UIView.animateWithDuration(NSTimeInterval(duration),
+                                       delay: 0.0,
+                                       options: .CurveLinear,
+                                       animations: {
+                                        
+                                        let cloud = self.clouds[i]
+                                        var cloudFrame = cloud.frame
+                                        cloudFrame.origin.x = CGFloat(cloud.tag + (width-offScreen))
+                                        cloud.frame = cloudFrame
+                                        
+                },
+                                       completion: nil)
+
+        }
+        
     }
-    
-//    func animateCloud(cloud: UIImageView){
-//        let speed = 60.0/view.frame.size.width
-//        let duration = (view.frame.size.width - cloud.frame.origin.x) * speed
-//        UIView.animateWithDuration(NSTimeInterval(duration), delay: 0.0, options: .CurveLinear, animations: {
-//            cloud.frame.origin.x = self.view.frame.size.width
-//            }, completion: {_ in
-//                cloud.frame.origin.x = -cloud.frame.size.width
-//                self.animateCloud(cloud)
-//        })
-//    }
     
     func showNextController(sender: UIButton){
         
